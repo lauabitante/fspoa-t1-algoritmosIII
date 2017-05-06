@@ -50,25 +50,11 @@ func populateMatrix(withString string: String) -> [[Int]] {
 }
 
 
-// Imprime matriz
-func printMatrix(_ matrix: [[Int]]) {
-    for row in 0..<matrix.count {
-        var rowStr = "|"
-        for column in matrix[row] {
-            rowStr.append("\(column)|")
-        }
-        print(rowStr)
-    }
-}
-
-
 // Leitura de arquivo de texto.
-let filePath = Bundle.main.path(forResource: "example_0", ofType: "txt")
+let filePath = Bundle.main.path(forResource: "example_4", ofType: "txt")
 let content: String = try! String(contentsOfFile: filePath!, encoding: .utf8)
 
 var matrix = populateMatrix(withString: content)
-printMatrix(matrix)
-print("")
 
 
 // Função que dada uma matriz, conta o número de ilhas.
@@ -115,4 +101,4 @@ func marking(matrix: inout [[Int]], row: Int, column: Int) {
 }
 
 // Imprime resultado
-print("Number of islands: \(numberOfIslands(matrix: &matrix))")
+print(numberOfIslands(matrix: &matrix))
