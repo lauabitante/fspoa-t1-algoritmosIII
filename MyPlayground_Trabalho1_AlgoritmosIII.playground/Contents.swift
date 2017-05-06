@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import XCTest
+
+let fileName = "example_3"
+let expectedNumberOfIslands = 3
+let fileNameForReadingTest = "example_1" // Constante utilizada apenas para o teste de leitura de arquivo.
+
 
 // Popula a matriz a partir de uma string
 func populateMatrix(withString string: String) -> [[Int]] {
-    
     var matrix: [[Int]] = [[]]
     var columns: Int = 0
     var rows: Int = 0
@@ -51,7 +56,7 @@ func populateMatrix(withString string: String) -> [[Int]] {
 
 
 // Leitura de arquivo de texto.
-let filePath = Bundle.main.path(forResource: "example_4", ofType: "txt")
+let filePath = Bundle.main.path(forResource: fileName, ofType: "txt")
 let content: String = try! String(contentsOfFile: filePath!, encoding: .utf8)
 
 var matrix = populateMatrix(withString: content)
@@ -59,7 +64,6 @@ var matrix = populateMatrix(withString: content)
 
 // Função que dada uma matriz, conta o número de ilhas.
 func numberOfIslands(matrix: inout [[Int]]) -> Int {
-    
     var islandCount = 0
     let rowCount = matrix.count
     if rowCount == 0 {
@@ -102,3 +106,47 @@ func marking(matrix: inout [[Int]], row: Int, column: Int) {
 
 // Imprime resultado
 print(numberOfIslands(matrix: &matrix))
+
+
+// Classe de testes
+class MatrixTests: XCTestCase {
+    
+    // Função para testar a leitura de uma única matriz. Nesse caso, o arquivo example_1.
+    func test_ReadFile() {
+        let filePath = Bundle.main.path(forResource: fileNameForReadingTest, ofType: "txt")
+        let content: String = try! String(contentsOfFile: filePath!, encoding: .utf8)
+        let matrix = populateMatrix(withString: content)
+        
+        XCTAssert(matrix[0][0] == 0, "[0][0] should be 0")
+        XCTAssert(matrix[0][1] == 0, "[0][1] should be 0")
+        XCTAssert(matrix[0][2] == 0, "[0][2] should be 0")
+        XCTAssert(matrix[0][3] == 0, "[0][3] should be 0")
+        
+        XCTAssert(matrix[1][0] == 0, "[1][0] should be 0")
+        XCTAssert(matrix[1][1] == 1, "[1][1] should be 1")
+        XCTAssert(matrix[1][2] == 1, "[1][2] should be 1")
+        XCTAssert(matrix[1][3] == 0, "[1][3] should be 0")
+        
+        XCTAssert(matrix[2][0] == 0, "[2][0] should be 0")
+        XCTAssert(matrix[2][1] == 1, "[2][1] should be 1")
+        XCTAssert(matrix[2][2] == 1, "[2][2] should be 1")
+        XCTAssert(matrix[2][3] == 0, "[2][3] should be 0")
+        
+        XCTAssert(matrix[3][0] == 0, "[3][0] should be 0")
+        XCTAssert(matrix[3][1] == 0, "[3][1] should be 0")
+        XCTAssert(matrix[3][2] == 0, "[3][2] should be 0")
+        XCTAssert(matrix[3][3] == 0, "[3][3] should be 0")
+    }
+    
+    func test_NumberOfIslands() {
+        let filePath = Bundle.main.path(forResource: fileName, ofType: "txt")
+        let content: String = try! String(contentsOfFile: filePath!, encoding: .utf8)
+        var matrix = populateMatrix(withString: content)
+        
+        // Caso a função numberOfIslands não retorne o resultado esperado, o teste acusará o erro.
+        XCTAssert(numberOfIslands(matrix: &matrix) == expectedNumberOfIslands, "Number of islands should be \(expectedNumberOfIslands)")
+    }
+}
+
+// Descomentar linha abaixo para rodar os testes.
+// MatrixTests.defaultTestSuite().run()
