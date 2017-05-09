@@ -8,8 +8,9 @@
 import UIKit
 import XCTest
 
-let fileName = "example_3"
-let expectedNumberOfIslands = 3
+let fileNumber = "4"
+let fileName = "example_\(fileNumber)"
+let expectedTestResultFile = "result_\(fileNumber)"
 let fileNameForReadingTest = "example_1" // Constante utilizada apenas para o teste de leitura de arquivo.
 
 
@@ -143,8 +144,12 @@ class MatrixTests: XCTestCase {
         let content: String = try! String(contentsOfFile: filePath!, encoding: .utf8)
         var matrix = populateMatrix(withString: content)
         
+        let filePathNumber = Bundle.main.path(forResource: expectedTestResultFile, ofType: "txt")
+        var contentFilePathNumber: String = try! String(contentsOfFile: filePathNumber!, encoding: .utf8)
+        contentFilePathNumber = contentFilePathNumber.replacingOccurrences(of: "\n", with: "")
+        
         // Caso a função numberOfIslands não retorne o resultado esperado, o teste acusará o erro.
-        XCTAssert(numberOfIslands(matrix: &matrix) == expectedNumberOfIslands, "Number of islands should be \(expectedNumberOfIslands)")
+        XCTAssert(numberOfIslands(matrix: &matrix) == Int(contentFilePathNumber)!, "Number of islands should be \(contentFilePathNumber)")
     }
 }
 
